@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Apuração 2026: quem está na frente no seu estado?</title>
+<meta name="description" content="Acompanhe ao vivo a apuração oficial do TSE no seu estado: presidente, governador, senador e deputados.">
+<!-- Prévia do link no WhatsApp, Instagram, Facebook, Telegram -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="{{ url_site }}">
+<meta property="og:title" content="Quem está na frente no seu estado?">
+<meta property="og:description" content="Apuração das eleições 2026 ao vivo, com os números oficiais do TSE. Grátis e sem propaganda.">
+<meta property="og:image" content="{{ og_imagem }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="/static/manifest.webmanifest">
+<meta name="theme-color" content="#16233B">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="/static/icone-192.png">
+<link rel="apple-touch-icon" href="/static/icone-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Apuração">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800&display=swap">
+<link rel="preload" as="image" href="/static/banner-768.webp" imagesrcset="/static/banner-768.webp 768w, /static/banner-1200.webp 1200w" imagesizes="(max-width: 800px) 100vw, 640px">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body data-inicio="{{ inicio }}">
+
+<!-- ================= Entrada ================= -->
+<div id="entrada" class="entrada" hidden>
+  <div class="banner-wrap">
+    <img class="banner" src="/static/banner-768.webp"
+       srcset="/static/banner-768.webp 768w, /static/banner-1200.webp 1200w"
+       sizes="(max-width: 800px) 100vw, 640px" width="1200" height="800" fetchpriority="high"
+       alt="Eleições 2026. Quem está na frente no seu estado? Resultados oficiais do TSE, atualizados a cada minuto.">
+    <span class="brilho" aria-hidden="true"></span>
+  </div>
+  <h1 class="so-leitor">Quem está na frente no seu estado?</h1>
+  <div class="entrada-form">
+    <label for="nomeEntrada">Como podemos te chamar?</label>
+    <input id="nomeEntrada" maxlength="40" autocomplete="given-name">
+    <label for="ufEntrada">Seu estado</label>
+    <select id="ufEntrada">
+      <option value="">Escolha o estado</option>
+      {% for sigla, nome in ufs %}<option value="{{ sigla }}">{{ nome }}</option>{% endfor %}
+    </select>
+    <button class="btn primario grande" id="entrar" type="button" disabled>Ver a apuração</button>
+    <ul class="selos">
+      <li>Grátis e sem propaganda</li>
+      <li>Sem CPF, telefone ou e-mail</li>
+      <li>Dados oficiais do TSE</li>
+    </ul>
+    <p class="nota">Site independente, sem vínculo com o TSE. Seu nome fica salvo só neste celular.</p>
+  </div>
+</div>
+
+<!-- ================= Aplicação ================= -->
+<div id="app" class="app" hidden>
+  <header class="topo-app">
+    <div class="topo-linha">
+      <div>
+        <p id="ola" class="ola"></p>
+        <h1 id="nomeEstado" class="estado">Seu estado</h1>
+      </div>
+      <div class="topo-botoes">
+        <button class="btn claro icone-btn" type="button" data-instalar id="instalarTopo" aria-label="Adicionar atalho na tela inicial" title="Adicionar à tela inicial" hidden>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 8v6M9 11h6"/></svg>
+        </button>
+        <button class="btn claro icone-btn" type="button" data-compartilhar aria-label="Compartilhar a apuração">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+        </button>
+        <button class="btn claro" id="trocarEstado" type="button" aria-label="Trocar estado">Trocar</button>
+      </div>
+    </div>
+    <p class="aovivo" id="aoVivo"><span class="ponto" aria-hidden="true"></span><span id="aoVivoTexto">Carregando…</span></p>
+    <div class="progresso" id="progresso" hidden>
+      <div class="progresso-rotulo"><span>Seções apuradas</span><strong id="progressoValor">0%</strong></div>
+      <div class="progresso-trilho"><i id="progressoBarra"></i></div>
+    </div>
+  </header>
+
+  <button type="button" id="apoiar" class="apoio-topo" hidden>
+    <span><strong>Gostou do site?</strong> Ajude este projeto com uma doação via Pix.</span>
+    <span class="apoio-acao">Doar</span>
+  </button>
+
+  <main id="conteudo" aria-live="polite"></main>
+
+  <footer class="rodape">
+    Fonte: Tribunal Superior Eleitoral (<a href="https://resultados.tse.jus.br" rel="noopener noreferrer">resultados.tse.jus.br</a>).
+    Site independente, sem vínculo com o TSE. Números parciais até o fim da totalização, exibidos sem projeção ou análise.
+    Nos cargos de deputado a eleição é proporcional: "Eleito" só aparece quando o TSE confirma.
+  </footer>
+</div>
+
+<!-- Fundo borrado compartilhado pelos modais -->
+<div id="fundoModal" class="fundo-modal" hidden></div>
+
+<!-- ================= Atalho na tela inicial (modal) ================= -->
+<section id="modalInstalar" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloInstalar" tabindex="-1" hidden>
+  <div class="alca" aria-hidden="true"></div>
+
+  <!-- Passo 1: qual é o seu celular? -->
+  <div class="passo-inst" id="instPergunta">
+    <div class="instalar-topo">
+      <img src="/static/icone-192.png" alt="" width="56" height="56">
+      <h2 class="modal-titulo" id="tituloInstalar">Quer a apuração a um toque?</h2>
+    </div>
+    <p class="modal-texto">Coloque o ícone do site na tela inicial e abra como um aplicativo, sem digitar endereço. Qual é o seu celular?</p>
+    <div class="escolha-so">
+      <button type="button" class="opcao-so" data-so="android">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 18c0 .55.45 1 1 1h1v3.5a1.5 1.5 0 0 0 3 0V19h2v3.5a1.5 1.5 0 0 0 3 0V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8A1.5 1.5 0 0 0 2 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 3.5 8zm17 0A1.5 1.5 0 0 0 19 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 20.5 8zm-4.97-5.84l1.3-1.3a.5.5 0 0 0-.7-.71l-1.48 1.48A5.96 5.96 0 0 0 12 1c-.96 0-1.86.23-2.66.63L7.85.15a.5.5 0 0 0-.7.7l1.31 1.31A5.98 5.98 0 0 0 6 7h12a5.98 5.98 0 0 0-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>
+        <span>Android</span><small class="detectado" hidden>Parece ser o seu</small>
+      </button>
+      <button type="button" class="opcao-so" data-so="ios">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.86-.76-1.47.02-2.83.86-3.59 2.17-1.53 2.66-.39 6.6 1.1 8.75.73 1.06 1.6 2.25 2.73 2.2 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.23 1.18-2.42 1.2-2.48-.03-.01-2.3-.88-2.3-3.49zM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.65-1.05 1.68-.92 2.68.97.07 1.96-.5 2.56-1.23z"/></svg>
+        <span>iPhone</span><small class="detectado" hidden>Parece ser o seu</small>
+      </button>
+    </div>
+    <button class="btn contorno grande largo" type="button" data-inst-fechar>Agora não</button>
+  </div>
+
+  <!-- Passo 2a: Android -->
+  <div class="passo-inst" id="instAndroid" hidden>
+    <h2 class="modal-titulo">Pronto para instalar</h2>
+    <p class="modal-texto" id="androidTexto">Toque no botão abaixo e confirme. O ícone da apuração vai aparecer na sua tela inicial, e no domingo é só tocar nele para ver os resultados.</p>
+    <ol class="passos" id="androidPassos" hidden>
+      <li>Toque no menu do navegador (<strong>⋮</strong>, no canto de cima).</li>
+      <li>Escolha <strong>Adicionar à tela inicial</strong> ou <strong>Instalar app</strong>.</li>
+      <li>Confirme em <strong>Adicionar</strong>.</li>
+    </ol>
+    <div class="acoes">
+      <button class="btn primario grande" id="btnInstalar" type="button">Instalar agora</button>
+      <button class="btn primario grande" id="androidFeito" type="button" hidden>Já adicionei</button>
+    </div>
+    <button class="link-voltar" type="button" data-inst-voltar>‹ Voltar</button>
+  </div>
+
+  <!-- Passo 2b: iPhone -->
+  <div class="passo-inst" id="instIos" hidden>
+    <h2 class="modal-titulo">São só 3 toques</h2>
+    <div class="aviso-safari" id="iosForaSafari" hidden>
+      <strong>Primeiro, abra no Safari.</strong> Você está em outro navegador ou dentro de um app. Toque nos <strong>três pontinhos</strong> (ou no ícone de bússola) e escolha <strong>Abrir no Safari</strong>. Depois, siga os passos abaixo.
+    </div>
+    <ol class="passos passos-ios">
+      <li><span class="num-passo">1</span><span>Toque em <strong>Compartilhar</strong>
+        <svg class="icone-inline" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="ícone de compartilhar"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>
+        na barra do Safari.</span></li>
+      <li><span class="num-passo">2</span><span>Role as opções e toque em <strong>Adicionar à Tela de Início</strong>.</span></li>
+      <li><span class="num-passo">3</span><span>Toque em <strong>Adicionar</strong>, no canto de cima.</span></li>
+    </ol>
+    <div class="acoes">
+      <button class="btn primario grande" id="iosFeito" type="button">Já adicionei</button>
+    </div>
+    <button class="link-voltar" type="button" data-inst-voltar>‹ Voltar</button>
+  </div>
+</section>
+
+<div id="colaImpressao" class="cola-impressao" aria-hidden="true"></div>
+
+<!-- ================= Doação (modal) ================= -->
+{% if pix %}
+<section id="doacao" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloDoacao" tabindex="-1" data-pix="{{ pix.codigo }}" hidden>
+  <div class="alca" aria-hidden="true"></div>
+  <h2 class="modal-titulo">Ajude a manter este projeto</h2>
+  <div class="doacao-corpo">
+    <div class="qr">{{ pix.qr }}</div>
+    <div>
+      <p class="saudacao-titulo" id="tituloDoacao">Este site te ajudou?</p>
+      <p class="doacao-texto">Ele é independente, sem propaganda, e os custos para mantê-lo no ar saem do meu bolso. Qualquer valor no Pix ajuda, até R$ 2. Obrigado!</p>
+    </div>
+  </div>
+  <div id="pixOk" class="pixok" role="status" hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+    <span>Código Pix copiado! Agora é só abrir o app do seu banco, escolher Pix Copia e Cola e concluir sua doação.</span>
+  </div>
+  <div class="acoes">
+    <button class="btn primario grande" id="copiarPix" type="button">Copiar código Pix</button>
+    <button class="btn contorno grande" id="fecharDoacao" type="button">Agora não</button>
+  </div>
+</section>
+{% endif %}
+
+<script src="/static/app.js" defer></script>
+{% if cf_token %}<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ cf_token }}"}'></script>{% endif %}
+</body>
+</html>

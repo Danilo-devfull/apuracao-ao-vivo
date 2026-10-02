@@ -1,0 +1,311 @@
+/* ===== Tokens (padrão aprovado no Canva) ===== */
+:root{
+  --fundo:#EEF1F5; --papel:#FFFFFF; --marinho:#16233B; --tinta:#16233B; --suave:#5E6B7A; --linha:#E1E6EC;
+  --amarelo:#E8BE4A; --amarelo-claro:#FFF6DC; --verde:#23663F; --verde-claro:#E3F1E8; --vivo:#6EDB9A;
+  --raio:18px;
+  font-family:"Libre Franklin",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--tinta); background:var(--fundo);
+  -webkit-text-size-adjust:100%;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+h1,h2,p{margin:0}
+a{color:inherit}
+button{font:inherit}
+.so-leitor{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--amarelo);outline-offset:2px}
+
+/* ===== Botões ===== */
+.btn{min-height:48px;padding:0 16px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;border:0}
+.btn.grande{min-height:52px;font-size:16px}
+.btn.primario{background:var(--marinho);color:#fff}
+.btn.contorno{background:var(--papel);color:var(--tinta);border:1px solid var(--linha)}
+.btn.claro{background:#fff;color:var(--marinho);flex:none}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* ===== Entrada ===== */
+.entrada{max-width:640px;margin:0 auto}
+.entrada .banner{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:#0B2A4A}
+.entrada-form{position:relative;margin-top:-18px;background:var(--papel);border-radius:var(--raio) var(--raio) 0 0;padding:24px 18px 32px;display:flex;flex-direction:column;gap:8px}
+.entrada-form label{font-size:14px;font-weight:700}
+.entrada-form input,.entrada-form select{width:100%;min-height:52px;padding:0 14px;margin-bottom:8px;border:1px solid var(--linha);border-radius:12px;background:var(--papel);color:var(--tinta);font:inherit;font-size:17px}
+.selos{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;color:var(--suave);font-size:15px}
+.selos li::before{content:"✓";color:var(--verde);font-weight:800;margin-right:10px}
+.nota{margin-top:12px;font-size:13px;color:var(--suave);line-height:1.5}
+@media (min-width:700px){.entrada{padding-top:16px}.entrada .banner{border-radius:var(--raio)}.entrada-form{border-radius:var(--raio)}}
+
+/* ===== App ===== */
+.app{max-width:640px;margin:0 auto;padding:16px 14px 32px;display:flex;flex-direction:column;gap:14px}
+.topo-app{background:var(--marinho);color:#fff;border-radius:var(--raio);padding:20px 18px;display:flex;flex-direction:column;gap:14px}
+.topo-linha{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.ola{font-size:15px;font-weight:600}
+.estado{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1.1}
+.aovivo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600}
+.ponto{width:12px;height:12px;border-radius:50%;background:var(--vivo);flex:none}
+.aovivo.parado .ponto{background:#9AA7B6}
+.progresso{display:flex;flex-direction:column;gap:6px}
+.progresso-rotulo{display:flex;justify-content:space-between;font-size:14px;color:#C9D3DF}
+.progresso-rotulo strong{color:#fff;font-variant-numeric:tabular-nums}
+.progresso-trilho{height:8px;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden}
+.progresso-trilho i{display:block;height:100%;width:0;background:var(--amarelo);border-radius:4px;transition:width .6s ease}
+
+.apoio-topo{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;background:var(--amarelo-claro);color:var(--tinta);border:1px solid var(--amarelo);border-radius:16px;padding:12px 14px;min-height:56px;line-height:1.4;font-size:15px;cursor:pointer}
+.apoio-topo[hidden]{display:none}
+.apoio-acao{flex:none;font-weight:800;background:var(--marinho);color:#fff;border-radius:10px;padding:10px 18px}
+
+.cartao{background:var(--papel);border-radius:var(--raio);padding:20px 18px;display:flex;flex-direction:column;gap:14px;box-shadow:0 1px 2px rgba(22,35,59,.06)}
+.acoes{display:flex;gap:10px;flex-wrap:wrap}
+.acoes .btn.primario{flex:1 1 180px}
+.acoes [hidden]{display:none}
+
+/* ===== Cargos ===== */
+#conteudo{display:flex;flex-direction:column;gap:14px}
+.cargo-topo{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.cargo-topo h2{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.meta{font-size:14px;color:var(--suave);white-space:nowrap;flex:none}
+.vazio{color:var(--suave);line-height:1.5}
+.lider{display:flex;gap:16px;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--linha)}
+.foto,.foto-sem{width:88px;height:104px;border-radius:14px;object-fit:cover;background:#D9DFE7;flex:none}
+.lider .pct{font-size:40px;font-weight:800;line-height:1;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.lider .nome{font-size:17px;font-weight:800;margin-top:6px}
+.sub{font-size:14px;color:var(--suave);margin-top:4px}
+.linha{display:flex;gap:12px;align-items:center}
+.linha .mini{width:40px;height:40px;border-radius:10px;object-fit:cover;background:#D9DFE7;flex:none}
+.linha-meio{flex:1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.linha .nome{font-size:16px;font-weight:800;overflow-wrap:anywhere}
+.linha .pct{font-size:17px;font-weight:800;min-width:64px;text-align:right;font-variant-numeric:tabular-nums}
+.trilho{height:7px;border-radius:4px;background:var(--linha);overflow:hidden}
+.trilho i{display:block;height:100%;width:0;background:var(--tinta);border-radius:4px}
+.lista{display:flex;flex-direction:column}
+.item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--linha)}
+.item .nome{font-size:16px;font-weight:800}
+.selo{flex:none;background:var(--verde-claro);color:var(--verde);font-size:14px;font-weight:800;padding:6px 12px;border-radius:8px}
+.mais{font-size:13px;color:var(--suave)}
+
+/* ===== Contagem regressiva sobre os cartões borrados ===== */
+.espera-area{display:grid}
+.espera-area>*{grid-area:1/1}
+.esqueleto{display:flex;flex-direction:column;gap:14px;filter:blur(5px);opacity:.85;pointer-events:none;user-select:none}
+.esq{display:block;height:14px;border-radius:6px;background:#D9DFE7}
+.esq.alto{height:36px;background:#C3CBD6}
+.espera-coluna{align-self:start;position:relative;z-index:1;margin:16px 10px 0;display:flex;flex-direction:column;gap:16px}
+.espera{background:color-mix(in srgb,var(--papel) 94%,transparent);border-radius:20px;padding:28px 20px;
+  display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;box-shadow:0 12px 40px rgba(22,35,59,.22)}
+.espera h2{font-size:22px;font-weight:800}
+
+.espera p{color:var(--suave);line-height:1.5;max-width:34ch}
+.compartilhar{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;background:#1F8E4E;color:#fff;font-size:16px}
+.rodape{font-size:13px;line-height:1.5;color:var(--suave)}
+
+/* ===== Modal de doação ===== */
+.fundo-modal{position:fixed;inset:0;z-index:40;background:rgba(10,18,30,.35);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);animation:surge .2s ease-out}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.fundo-modal{background:rgba(10,18,30,.6)}}
+.fundo-modal[hidden],.modal[hidden]{display:none}
+.modal{position:fixed;left:0;right:0;bottom:0;z-index:50;margin:0 auto;max-width:560px;max-height:90vh;overflow-y:auto;background:var(--papel);color:var(--tinta);
+  border-radius:22px 22px 0 0;border-top:5px solid var(--amarelo);padding:14px 18px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:18px;
+  box-shadow:0 -8px 30px rgba(0,0,0,.25);animation:sobe .25s ease-out}
+.alca{width:44px;height:5px;border-radius:3px;background:var(--linha);align-self:center}
+.modal-titulo{font-size:28px;font-weight:800;letter-spacing:-1px;line-height:1.1}
+.doacao-corpo{display:flex;gap:16px;align-items:flex-start}
+.qr{width:120px;height:120px;flex:none;background:#fff;border:2px solid var(--marinho);border-radius:8px;padding:4px}
+.qr svg{width:100%;height:100%;display:block}
+.saudacao-titulo{font-size:17px;font-weight:800;margin-bottom:6px}
+.doacao-texto{font-size:15px;line-height:1.45;font-weight:500}
+.pixok{display:flex;gap:10px;align-items:flex-start;background:var(--verde-claro);color:var(--verde);border-radius:14px;padding:14px;font-size:15px;font-weight:700;line-height:1.45}
+.pixok[hidden]{display:none}
+.pixok svg{flex:none;margin-top:2px}
+body.modal-aberto{overflow:hidden}
+@keyframes sobe{from{transform:translateY(100%)}to{transform:none}}
+@keyframes surge{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.topo-botoes{display:flex;gap:8px;flex:none}
+.icone-btn{width:48px;padding:0;display:flex;align-items:center;justify-content:center}
+.selo-lider{margin-top:8px}
+.progresso[hidden],.ola:empty{display:none}
+
+/* ===== Urna e relógio ===== */
+.urna-anim{position:relative;width:170px;height:170px;margin-bottom:4px}
+.urna-anim svg{position:absolute;inset:0;width:100%;height:100%}
+.urna{inset:auto!important;left:30px!important;top:52px!important;width:110px!important;height:82px!important;animation:respira 2.4s ease-in-out infinite}
+.urna-corpo{fill:#D7DCE3;stroke:var(--marinho);stroke-width:2.5}
+.urna-tela{fill:var(--marinho)}
+.urna-texto{fill:var(--amarelo)}.urna-texto.fraco{fill:#8EA0B8}
+.urna-teclas rect{fill:#16233B}
+.tecla-branco{fill:#FFFFFF;stroke:#16233B;stroke-width:1}.tecla-corrige{fill:#E07A2E}.tecla-confirma{fill:#2E9E5B}
+.urna-alca{fill:#B9C1CC}
+@keyframes gira{to{transform:rotate(360deg)}}
+@keyframes respira{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.relogio{display:flex;gap:8px;justify-content:center}
+.relogio div{display:flex;flex-direction:column;align-items:center;min-width:64px;background:var(--marinho);color:#fff;border-radius:12px;padding:10px 6px 8px}
+.relogio strong{font-size:32px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.relogio span{font-size:12px;color:#C9D3DF;margin-top:4px}
+
+/* ===== Brilho dourado passando por "Eleições 2026" no banner ===== */
+.banner-wrap{position:relative;overflow:hidden}
+.brilho{position:absolute;left:5.534%;top:22.461%;width:14.974%;height:4.297%;pointer-events:none;
+  -webkit-mask:url(/static/eleicoes-mascara.png) center/100% 100% no-repeat;mask:url(/static/eleicoes-mascara.png) center/100% 100% no-repeat;
+  background:linear-gradient(110deg,rgba(255,255,255,0) 30%,#FFE58A 42%,#FFFFFF 50%,#FFE58A 58%,rgba(255,255,255,0) 70%) no-repeat;
+  background-size:60% 100%;background-position:-80% 0;animation:brilha 3.4s ease-in-out infinite;filter:drop-shadow(0 0 5px rgba(255,214,90,.9))}
+@keyframes brilha{0%{background-position:-80% 0}50%,100%{background-position:180% 0}}
+
+/* ===== Modais extras ===== */
+.modal-texto{font-size:16px;line-height:1.5;color:var(--suave)}
+.instalar-topo{display:flex;gap:14px;align-items:center}
+.instalar-topo img{border-radius:16px;flex:none}
+.passos{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.45}
+.passos[hidden]{display:none}
+.acoes .btn.grande{flex:1 1 140px}
+
+/* ===== Ações da tela de contagem ===== */
+.espera-acoes{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:6px}
+.espera-acoes .btn{width:100%}
+.btn.verde{background:#1F8E4E;color:#fff}
+.btn.cola{background:var(--amarelo-claro);color:var(--tinta);border:1px solid var(--amarelo)}
+.btn-icone{display:inline-flex;align-items:center;justify-content:center;gap:10px}
+
+/* ===== Colinha ===== */
+.aviso-cola{background:var(--verde-claro);color:var(--verde);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.5}
+.aviso-celular{background:var(--amarelo-claro);border:1px solid var(--amarelo);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.5}
+.campos-cola{display:flex;flex-direction:column;gap:12px}
+.campo-cola{display:grid;grid-template-columns:1fr 128px;gap:6px 10px;align-items:end}
+.campo-cola label{grid-column:1/-1;font-size:14px;font-weight:800}
+.campo-cola input{font:inherit;font-size:17px;min-height:48px;padding:0 12px;border:1px solid var(--linha);border-radius:12px;background:var(--papel);color:var(--tinta);width:100%}
+.campo-cola input.num{font-size:22px;font-weight:800;letter-spacing:2px;text-align:center;font-variant-numeric:tabular-nums;padding:0 6px}
+.cola-impressao{display:none}
+@media print{
+  body *{visibility:hidden}
+  .cola-impressao,.cola-impressao *{visibility:visible}
+  .cola-impressao{display:block;position:absolute;top:0;left:0;width:100%;font-family:system-ui,sans-serif;color:#000}
+  .cola-impressao h1{font-size:20px;margin:0 0 12px}
+  .cola-impressao table{border-collapse:collapse;width:100%;max-width:420px}
+  .cola-impressao td{border:1px solid #000;padding:8px;font-size:15px}
+  .cola-impressao td.n{font-size:22px;font-weight:800;letter-spacing:3px;text-align:center;width:120px}
+}
+
+/* ===== Colinha (cartão padrão, só antes da apuração) ===== */
+.bloco{background:var(--papel);color:var(--tinta);border-radius:var(--raio);padding:20px 18px;box-shadow:0 10px 30px rgba(22,35,59,.14);display:flex;flex-direction:column;gap:6px}
+.bloco-topo{display:flex;justify-content:space-between;align-items:baseline}
+.bloco-topo h2{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.link-bloco{font:inherit;font-size:14px;font-weight:700;background:none;border:0;color:var(--tinta);text-decoration:underline;min-height:44px;cursor:pointer}
+.bloco-linhas{display:flex;flex-direction:column}
+.bloco-linha{display:grid;grid-template-columns:1fr 96px;grid-template-rows:auto auto;column-gap:10px;padding:10px 0;border-top:1px solid var(--linha)}
+.bloco-linha label{font-size:15px;font-weight:800;align-self:end}
+.bloco-linha .num{grid-row:1/3;grid-column:2;align-self:center;font:inherit;font-size:22px;font-weight:800;letter-spacing:2px;text-align:center;
+  background:var(--fundo);border:1px solid var(--linha);border-radius:12px;color:var(--tinta);min-height:48px;width:100%;font-variant-numeric:tabular-nums}
+.bloco-linha .nome{font:inherit;font-size:15px;background:transparent;border:0;color:var(--tinta);padding:2px 0;min-height:32px;width:100%}
+.bloco-linha input::placeholder{color:#A3AEBB}
+.bloco-linha input:focus-visible{outline:3px solid var(--amarelo);outline-offset:2px}
+.bloco-celular{padding-top:8px;font-size:13px;font-weight:700;color:var(--suave)}
+
+/* ===== Anel da urna: bolinha percorrendo verde, amarelo e azul ===== */
+.faixa{fill:none;stroke-width:6;stroke-linecap:round;stroke-dasharray:.96 2.04;opacity:.9}
+.faixa-verde{stroke:#009C3B;stroke-dashoffset:-.02}
+.faixa-amarela{stroke:#FFDF00;stroke-dashoffset:-1.02}
+.faixa-azul{stroke:#002776;stroke-dashoffset:-2.02}
+.orbita{transform-origin:100px 100px;animation:gira 6s linear infinite}
+.bola{animation:cores 6s linear infinite;fill:currentColor}
+.principal{filter:drop-shadow(0 0 6px currentColor) drop-shadow(0 0 2px #fff);stroke:#fff;stroke-width:2}
+.rastro.r1{opacity:.55}.rastro.r2{opacity:.35}.rastro.r3{opacity:.18}
+.faisca{fill:#fff;transform-origin:100px 12px;animation:pisca 1.2s ease-in-out infinite;filter:drop-shadow(0 0 3px #fff)}
+@keyframes cores{0%,33.2%{color:#009C3B}33.4%,66.5%{color:#FFDF00}66.7%,99.8%{color:#002776}100%{color:#009C3B}}
+@keyframes pisca{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+.botao-cola{width:100%;background:var(--papel);color:var(--tinta);border:1px solid var(--linha);box-shadow:0 1px 2px rgba(22,35,59,.06)}
+.bloco[hidden]{display:none}
+
+/* ===== Colinha: exibição do candidato encontrado ===== */
+.bloco-linha{align-items:center}
+.bloco-linha label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--suave)}
+.bloco-linha .nome[hidden]{display:none}
+.achado{grid-column:1;margin:2px 0 0;min-height:0}
+.achado:empty{display:none}
+.achado.ok{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.achado-nome{font-size:16px;font-weight:800;color:var(--tinta);line-height:1.25;letter-spacing:.01em}
+.achado-partido{font-size:12px;font-weight:800;color:var(--suave);background:var(--fundo);border:1px solid var(--linha);border-radius:999px;padding:2px 8px;line-height:1.4}
+.achado.erro{grid-column:1/-1;font-size:14px;font-weight:700;color:#A15C00}
+.bloco-linha.com-candidato .num{border-color:#9FD3B1;background:#F1F9F4}
+.bloco-aviso{display:flex;gap:10px;align-items:flex-start;background:var(--amarelo-claro);border:1px solid var(--amarelo);border-radius:14px;padding:12px 14px;margin:4px 0 8px;color:#5C4A0B}
+.bloco-aviso svg{flex:none;margin-top:1px;color:#8A6A00}
+.bloco-aviso p{margin:0;font-size:14px;line-height:1.45}
+.bloco-aviso strong{color:#3D3108}
+.topo-botoes{gap:6px}
+.topo-botoes .btn{padding:0 14px}
+.topo-botoes .icone-btn{width:44px;padding:0}
+.topo-linha{flex-wrap:wrap}
+.topo-linha>div:first-child{flex:1 1 auto}
+
+/* ===== Modal do atalho em conversa ===== */
+.passo-inst{display:flex;flex-direction:column;gap:16px}
+.escolha-so{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opcao-so{font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:120px;padding:14px 8px;
+  background:var(--papel);color:var(--tinta);border:2px solid var(--linha);border-radius:16px;cursor:pointer;font-size:17px;font-weight:800}
+.opcao-so svg{color:var(--tinta)}
+.opcao-so.sugerida{border-color:var(--marinho);background:#F2F5FA}
+.opcao-so .detectado{font-size:12px;font-weight:700;color:var(--verde)}
+.opcao-so:active{transform:scale(.98)}
+.btn.largo{width:100%}
+.passos-ios{list-style:none;padding:0;gap:12px}
+.passos-ios li{display:flex;gap:12px;align-items:flex-start}
+.num-passo{flex:none;width:28px;height:28px;border-radius:50%;background:var(--marinho);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+.icone-inline{vertical-align:-4px;color:#1F6FB2}
+.aviso-safari{background:var(--amarelo-claro);border:1px solid var(--amarelo);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.5}
+.link-voltar{font:inherit;font-size:15px;font-weight:700;background:none;border:0;color:var(--suave);align-self:center;min-height:44px;cursor:pointer}
+
+/* Avatar neutro (sem foto): silhueta + iniciais, mesma cor para todos */
+.avatar{position:relative;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;
+  background:linear-gradient(180deg,#E3E8EF 0%,#CDD5E0 100%)}
+.avatar::before{content:"";position:absolute;left:50%;top:20%;width:38%;aspect-ratio:1;border-radius:50%;background:#B4BFCD;transform:translateX(-50%)}
+.avatar::after{content:"";position:absolute;left:50%;bottom:-18%;width:78%;height:46%;border-radius:50% 50% 0 0;background:#B4BFCD;transform:translateX(-50%)}
+.avatar span{position:relative;z-index:1;margin-bottom:8%;font-weight:800;color:#fff;letter-spacing:.04em;text-shadow:0 1px 2px rgba(22,35,59,.35)}
+.foto-sem.avatar span{font-size:20px}
+.mini.avatar span{font-size:11px;margin-bottom:6%}
+
+/* =====================================================================
+   Tablet e computador (o celular continua com a coluna única de antes)
+   ===================================================================== */
+@media (min-width:768px){
+  .app{max-width:960px;padding:24px 24px 40px;gap:18px}
+  .topo-app{padding:24px 26px}
+  .estado{font-size:36px}
+  /* Resultados em duas colunas: Presidente e Governador lado a lado */
+  #conteudo{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  #conteudo>*{grid-column:auto}
+  #conteudo>:nth-child(2){order:1;grid-column:1/-1}          /* botão compartilhar: linha inteira */
+  #conteudo>:nth-child(n+4){order:2}                           /* senador e deputados abaixo */
+  #conteudo>.espera-area,#conteudo>.cartao:only-child{grid-column:1/-1}
+  .rodape{max-width:none}
+  /* Entrada: banner à esquerda, formulário à direita */
+  .entrada{max-width:1100px;min-height:100vh;padding:32px 24px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center;align-content:center}
+  .entrada .banner{border-radius:var(--raio);width:100%}
+  .entrada-form{margin-top:0;border-radius:var(--raio);box-shadow:0 10px 30px rgba(22,35,59,.10)}
+  /* Antes da apuração: urna e colinha lado a lado */
+  .espera-coluna{display:grid;grid-template-columns:1fr 1fr;align-items:start;margin:20px 16px 0}
+  .espera-coluna .espera{grid-column:1;grid-row:1 / span 2}
+  .espera-coluna .botao-cola{grid-column:2;grid-row:1}
+  .espera-coluna .bloco{grid-column:2;grid-row:2}
+  /* Modais centralizados, não grudados embaixo */
+  .modal{bottom:auto;top:50%;transform:translateY(-50%);border-radius:22px;max-width:520px;animation:surge .2s ease-out}
+  .modal .alca{display:none}
+}
+@media (min-width:1100px){
+  .app{max-width:1180px}
+  /* Senador e deputados em três colunas no computador */
+  #conteudo{grid-template-columns:repeat(6,1fr)}
+  #conteudo>:nth-child(1),#conteudo>:nth-child(3){grid-column:span 3}
+  #conteudo>:nth-child(n+4){grid-column:span 2}
+  #conteudo>:nth-child(2),#conteudo>.espera-area,#conteudo>.cartao:only-child{grid-column:1/-1}
+  .espera-coluna{margin:24px auto 0;max-width:1000px;width:calc(100% - 32px)}
+}
+
+/* Cabeçalho com a bandeira (sem texto) ao fundo, à direita */
+.topo-app{position:relative;overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(22,35,59,.97) 0%,rgba(22,35,59,.9) 30%,rgba(22,35,59,.45) 62%,rgba(22,35,59,.05) 100%),
+    url(/static/bandeira-topo.webp) right center/cover no-repeat,
+    var(--marinho)}
+.topo-app>*{position:relative}
+.progresso-trilho{background:rgba(255,255,255,.22)}
+.topo-app{text-shadow:0 1px 3px rgba(0,0,0,.55)}
+.topo-app .btn{text-shadow:none}
