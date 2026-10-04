@@ -1,6 +1,6 @@
 Django==5.2.*
 requests>=2.33,<3
-gunicorn==23.*
 whitenoise==6.*
 segno==1.6.*
 redis==5.*
+gunicorn==23.*

@@ -25,7 +25,7 @@ def _pix():
 
 
 @require_GET
-@cache_control(public=True, max_age=300)
+@cache_control(public=True, max_age=60, s_maxage=300)
 def index(request):
     return render(request, "index.html", {
         "ufs": sorted(UFS.items(), key=lambda x: x[1]),
@@ -38,7 +38,7 @@ def index(request):
 
 
 @require_GET
-@cache_control(public=True, max_age=30, stale_while_revalidate=30)
+@cache_control(public=True, max_age=15, s_maxage=30, stale_while_revalidate=60)
 def resultados_uf(request, uf):
     if uf not in UFS:  # a rota só aceita 2 letras minúsculas; aqui garantimos que é um estado real
         raise Http404()

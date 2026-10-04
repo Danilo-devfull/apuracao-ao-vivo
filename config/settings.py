@@ -13,7 +13,10 @@ if _env_arquivo.exists():
         _linha = _linha.strip()
         if _linha and not _linha.startswith("#") and "=" in _linha:
             _k, _v = _linha.split("=", 1)
-            os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
+            _k = _k.strip()
+            # Variável vazia no terminal (sobra de um "source .env" antigo) não esconde o valor do arquivo
+            if not os.environ.get(_k):
+                os.environ[_k] = _v.strip().strip('"').strip("'")
 
 
 def env(nome, padrao=None):
@@ -34,6 +37,13 @@ if not SECRET_KEY:
         raise ImproperlyConfigured("Defina SECRET_KEY no .env")
 
 ALLOWED_HOSTS = [h.strip() for h in env("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if h.strip()]
+
+# Hospedagem na Vercel (a própria Vercel define a variável VERCEL=1)
+NA_VERCEL = bool(env("VERCEL"))
+if NA_VERCEL:
+    ALLOWED_HOSTS.append(".vercel.app")
+# Sem worker (Vercel): as páginas buscam no TSE na hora, com cache curto + CDN
+BUSCA_SOB_DEMANDA = env("BUSCA_SOB_DEMANDA", "1" if NA_VERCEL else "0") == "1"
 
 INSTALLED_APPS = ["django.contrib.staticfiles", "apuracao"]
 
@@ -65,10 +75,10 @@ USE_TZ = True
 # Arquivos estáticos servidos pelo WhiteNoise (com compressão e cache longo)
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STORAGES = {
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
-}
+STATIC_ROOT = None if NA_VERCEL else BASE_DIR / "staticfiles"
+STORAGES = {"staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"}}
+WHITENOISE_USE_FINDERS = True        # serve direto de static/, sem precisar de collectstatic
+WHITENOISE_MAX_AGE = 3600
 
 # Cabeçalhos de segurança (valem em produção, atrás do Cloudflare com HTTPS)
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -98,6 +108,9 @@ if env("REDIS_URL"):
         "LOCATION": env("REDIS_URL"),
         "KEY_PREFIX": "apuracao",
     }}
+elif NA_VERCEL:
+    # Na Vercel o disco é somente leitura: cache em memória de cada instância
+    CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}
 else:
     CACHES = {"default": {
         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
@@ -111,8 +124,8 @@ TSE_BASE_URL = env("TSE_BASE_URL", "https://resultados.tse.jus.br/oficial/ele202
 # Proteção: o servidor só pode buscar dados no domínio oficial do TSE.
 if not TSE_BASE_URL.startswith("https://resultados.tse.jus.br/"):
     raise ImproperlyConfigured("TSE_BASE_URL precisa começar com https://resultados.tse.jus.br/")
-TSE_ELEICAO_FEDERAL = env("TSE_ELEICAO_FEDERAL", "0")
-TSE_ELEICAO_ESTADUAL = env("TSE_ELEICAO_ESTADUAL", "0")
+TSE_ELEICAO_FEDERAL = env("TSE_ELEICAO_FEDERAL", "6257")   # 1º turno 2026: Eleição Geral Federal
+TSE_ELEICAO_ESTADUAL = env("TSE_ELEICAO_ESTADUAL", "6259")  # 1º turno 2026: Eleições Gerais Estaduais
 for _nome in ("TSE_ELEICAO_FEDERAL", "TSE_ELEICAO_ESTADUAL"):
     if not globals()[_nome].isdigit():
         raise ImproperlyConfigured(f"{_nome} deve conter só números")
