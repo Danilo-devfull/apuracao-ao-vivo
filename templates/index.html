@@ -186,6 +186,8 @@
 {% endif %}
 
 <script src="/static/app.js" defer></script>
+<!-- Vercel Web Analytics (mesmo domínio do site, compatível com a CSP; não usa cookies) -->
+<script defer src="/_vercel/insights/script.js"></script>
 {% if cf_token %}<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ cf_token }}"}'></script>{% endif %}
 </body>
 </html>
