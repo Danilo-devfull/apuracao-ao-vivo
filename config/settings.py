@@ -34,7 +34,12 @@ if not SECRET_KEY:
     if DEBUG:
         SECRET_KEY = "apenas-para-desenvolvimento-local"
     else:
-        raise ImproperlyConfigured("Defina SECRET_KEY no .env")
+        # Sem SECRET_KEY definida (ex.: etapa de build da Vercel, que não recebe as variáveis):
+        # usa uma chave aleatória temporária. É seguro neste projeto porque ele não tem login,
+        # sessão nem nada assinado que precise sobreviver entre reinícios.
+        import secrets as _secrets, warnings as _w
+        SECRET_KEY = _secrets.token_urlsafe(50)
+        _w.warn("SECRET_KEY não definida: usando chave temporária. Defina SECRET_KEY no ambiente.")
 
 ALLOWED_HOSTS = [h.strip() for h in env("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if h.strip()]
 
