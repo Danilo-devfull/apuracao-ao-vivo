@@ -82,9 +82,26 @@ def painel(request):
     if not settings.PAINEL_TOKEN or not secrets.compare_digest(token, settings.PAINEL_TOKEN):
         raise Http404()  # 404 em vez de 403: não revela que o painel existe
     dia = timezone.localdate().isoformat()
-    return JsonResponse({
+    contadores = {
         n: {"hoje": cache.get(f"ev:{n}:{dia}", 0), "total": cache.get(f"ev:{n}:total", 0)}
         for n in sorted(EVENTOS)
+    }
+    # Diagnóstico da configuração (mostra só se existe, nunca o valor)
+    faltando = [k for k in ("PIX_CHAVE", "PIX_NOME", "PIX_CIDADE") if not getattr(settings, k)]
+    try:
+        pix_ok = _pix() is not None
+        erro_pix = ""
+    except Exception as exc:
+        pix_ok, erro_pix = False, type(exc).__name__
+    return JsonResponse({
+        "config": {
+            "pix_ativo": pix_ok, "pix_faltando": faltando, "pix_erro": erro_pix,
+            "na_vercel": settings.NA_VERCEL, "busca_sob_demanda": settings.BUSCA_SOB_DEMANDA,
+            "tse_base": settings.TSE_BASE_URL,
+            "tse_eleicoes": [settings.TSE_ELEICAO_FEDERAL, settings.TSE_ELEICAO_ESTADUAL],
+            "apuracao_inicio": settings.APURACAO_INICIO,
+        },
+        "contadores": contadores,
     })
 
 
