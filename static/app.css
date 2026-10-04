@@ -309,3 +309,4 @@ body.modal-aberto{overflow:hidden}
 .progresso-trilho{background:rgba(255,255,255,.22)}
 .topo-app{text-shadow:0 1px 3px rgba(0,0,0,.55)}
 .topo-app .btn{text-shadow:none}
+.abrangencia{display:inline-block;vertical-align:middle;margin-left:6px;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--verde);background:var(--verde-claro);border-radius:999px;padding:3px 10px}

@@ -8,7 +8,7 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const pct = n => Number(n || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '%';
   const milhar = n => Number(n || 0).toLocaleString('pt-BR');
-  const fotoOk = u => typeof u === 'string' && u.startsWith('https://resultados.tse.jus.br/');
+  const fotoOk = u => typeof u === 'string' && (u.startsWith('https://resultados.tse.jus.br/') || u.startsWith('https://resultados-sim.tse.jus.br/'));
   const ev = n => { try { navigator.sendBeacon(`/api/evento/${n}/`); } catch (e) {} };
   const UF = /^[a-z]{2}$/;
   const INICIO = Date.parse(document.body.dataset.inicio) || 0;
@@ -95,7 +95,7 @@
     const comFoto = k.cargo === 'Presidente';
     const max = Number(l.percentual) || 1;
     return `<section class="cartao">
-      <div class="cargo-topo"><h2>${esc(k.cargo)}</h2><span class="meta">${pct(k.secoes_apuradas)} das seções</span></div>
+      <div class="cargo-topo"><h2>${esc(k.cargo)}${k.abrangencia ? ` <span class="abrangencia">${esc(k.abrangencia)}</span>` : ''}</h2><span class="meta">${pct(k.secoes_apuradas)} das seções</span></div>
       <div class="lider">${foto(l, 'foto')}<div>
         <div class="pct">${pct(l.percentual)}</div>
         <div class="nome">${esc(l.nome)}</div>
@@ -230,7 +230,7 @@
         Compartilhar a apuração ${artigo(ufAtual)} ${esc(nomeDoEstado(ufAtual))}</button>`;
       alvo.innerHTML = d.cargos.map((k, i) => cargo(k) + (i === 0 ? botaoCompartilhar : '')).join('');
       alvo.querySelectorAll('.trilho i').forEach(i => { i.style.width = i.dataset.w + '%'; });
-      const pres = d.cargos.find(k => k.cargo === 'Presidente' && !k.indisponivel) || d.cargos.find(k => !k.indisponivel);
+      const pres = d.cargos.find(k => k.cargo === 'Governador' && !k.indisponivel) || d.cargos.find(k => !k.indisponivel && !k.abrangencia) || d.cargos.find(k => !k.indisponivel);
       const sec = Number(pres && pres.secoes_apuradas) || 0;
       $('progresso').hidden = false;
       $('progressoValor').textContent = pct(sec);
@@ -263,7 +263,7 @@
   document.addEventListener('click', e => { if (e.target.closest('[data-compartilhar]')) compartilhar(); });
   async function compartilhar() {
     const url = `${location.origin}/#${ufAtual}`;
-    const texto = `Acompanhe a apuração ${artigo(ufAtual)} ${nomeDoEstado(ufAtual)} ao vivo, com os números oficiais do TSE:`;
+    const texto = `Acompanhe a apuração ao vivo: Presidente no Brasil e os cargos ${artigo(ufAtual)} ${nomeDoEstado(ufAtual)}, com os números oficiais do TSE:`;
     ev('compartilhou');
     if (navigator.share) {
       try { await navigator.share({title: 'Apuração 2026', text: texto, url}); } catch (e) {}

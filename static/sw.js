@@ -1,6 +1,6 @@
 // Service worker mínimo: permite instalar o atalho e abre a página mesmo com internet instável.
 // Os resultados (/api/) NUNCA vêm do cache do aparelho: sempre ao vivo.
-const CACHE = 'apuracao-v38';
+const CACHE = 'apuracao-v40';
 const BASE = ['/', '/static/app.css', '/static/app.js', '/static/icone-192.png', '/static/banner-768.webp'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(BASE))); self.skipWaiting(); });
 self.addEventListener('activate', e => e.waitUntil(

@@ -134,9 +134,19 @@ def buscar_estado(uf, anterior=None):
 
     def um(item):
         codigo, nome, tipo = item
-        url, curto = _url(uf, codigo, tipo)
+        # Presidente: resultado nacional (arquivo "br"), igual para todos os estados
+        abr = "br" if codigo == "0001" else uf
+        if abr == "br":
+            guardado = cache.get("tse:br:presidente")
+            if guardado and time.time() - guardado.get("_em", 0) < settings.TSE_INTERVALO_SEGUNDOS:
+                return {k: v for k, v in guardado.items() if k != "_em"}
+        url, curto = _url(abr, codigo, tipo)
         try:
-            return _normalizar(uf, nome, curto, _baixar_json(url), codigo)
+            r = _normalizar(abr, nome, curto, _baixar_json(url), codigo)
+            if abr == "br":
+                r["abrangencia"] = "Brasil"
+                cache.set("tse:br:presidente", {**r, "_em": time.time()}, 3600)
+            return r
         except Exception as exc:
             log.warning("TSE indisponível para %s/%s: %s", uf, codigo, exc)
             return anterior.get(nome) or {"cargo": nome, "indisponivel": True, "candidatos": []}
